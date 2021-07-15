@@ -35,14 +35,16 @@
 #else
 #include "xtimer.h"
 #endif
-
+char *data; 
 static gnrc_netreg_entry_t server =
                         GNRC_NETREG_ENTRY_INIT_PID(GNRC_NETREG_DEMUX_CTX_ALL,
                                                    KERNEL_PID_UNDEF);
 
-static void send(char *addr_str, char *port_str, char *data, unsigned int num,
+static void send(char *addr_str, char *port_str, unsigned int num,
                  unsigned int delay)
 {
+    
+    data = "¡Soy Roberto Vindel quiero pertenecer al Hackerspace San Salvador!";
     gnrc_netif_t *netif = NULL;
     char *iface;
     uint16_t port;
@@ -166,7 +168,7 @@ int udp_cmd(int argc, char **argv)
     if (strcmp(argv[1], "send") == 0) {
         uint32_t num = 1;
         uint32_t delay = 1000000;
-        if (argc < 5) {
+        if (argc < 4) {
 #if IS_USED(MODULE_ZTIMER_MSEC)
             printf("usage: %s send "
                    "<addr> <port> <data> [<num> [<delay in ms>]]\n", argv[0]);
@@ -182,7 +184,8 @@ int udp_cmd(int argc, char **argv)
         if (argc > 6) {
             delay = atoi(argv[6]);
         }
-        send(argv[2], argv[3], argv[4], num, delay);
+        /* send(argv[2], argv[3], argv[4], num, delay); */
+        send(argv[2], argv[3], num, delay);
     }
     else if (strcmp(argv[1], "server") == 0) {
         if (argc < 3) {
